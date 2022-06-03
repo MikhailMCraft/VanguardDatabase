@@ -6,14 +6,21 @@ seePostMatch = False
 def print_with_delay(text, ignoreSpeedUp = False):
     sys.stdout.write("\n> ")
     sys.stdout.flush()
+    ind = 0
     for c in text:
         sys.stdout.write(c)
-        if (c == "\n"):
-            sys.stdout.flush()
-            sys.stdout.write("> ")
+        if c == "\n":
+            if len(text) >= ind + 1:
+                if text[ind + 1] != "\n":
+                    sys.stdout.flush()
+                    sys.stdout.write("> ")
+                else:
+                    sys.stdout.flush()
+                    sys.stdout.write(" ")
         sys.stdout.flush()
+        ind += 1
         time.sleep(0.04)
-        if (keyboard.is_pressed("backspace") and not ignoreSpeedUp):
+        if keyboard.is_pressed("backspace") and not ignoreSpeedUp:
             sys.stdout.write(" ~XXX")
             sys.stdout.flush()
             break
@@ -26,7 +33,7 @@ def main_loop():
     inp = inp.lower()
     before.append("\"" + inporig + "\"")
 
-    if (len(before) > 50):
+    if len(before) > 50:
         before.remove(before[0])
 
     if "\"" + inp.upper() + "\"" in restrict_words:
@@ -92,7 +99,7 @@ def main_loop():
         previous = "WARLOCK VANGUARD IKORA REY IS CURRENTLY IN THE UNDERWATCH. WOULD YOU LIKE TO CONTACT HER?"
 
     elif inp.startswith("126 years ago"):
-        previous = "MAJOR EVENTS OF 126 YEARS AGO:\nSIGNIFICANT PROGRESS MADE IN FACTION ACCORDS. RELATED: BRASK, A.\nTRAVELER TRUE ORIGIN AND PURPOSE DISCOVERED\n\nMINOR EVENTS OF 126 YEARS AGO:\nFIRST 25-MATCH CRUCIBLE WINNING STREAK RECORDED. RELATED: REY, I.\nCENTAUR PLANETOID \"7066 NESSUS\" RE-ENTERS SYSTEM AFTER UNEXPLAINED DELAY. RELATED: WHERE DID THE \"EXODUS BLACK\" COLONY SHIP GO?"
+        previous = "MAJOR EVENTS OF 126 YEARS AGO:\nSIGNIFICANT PROGRESS MADE IN FACTION ACCORDS. RELATED: BRASK, A.\nTRAVELER TRUE ORIGIN AND PURPOSE DISCOVERED\n\nMINOR EVENTS OF 126 YEARS AGO:\nFIRST 25-MATCH CRUCIBLE WINNING STREAK RECORDED. RELATED: REY, I.\nCENTAUR PLANETOID \"7066 NESSUS\" RE-ENTERS SYSTEM AFTER UNEXPLAINED DELAY. RELATED: JACOBSON, M."
 
     elif not inp.startswith("what??") or previous == "":
         previous = "SORRY, I DIDN'T UNDERSTAND \"" + inporig + "\"."
